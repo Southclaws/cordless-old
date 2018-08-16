@@ -10,9 +10,10 @@ import (
 
 // ChatLog renders a list of Discord servers and their channels
 type ChatLog struct {
-	Inner *tview.Flex
-	Log   *tview.TextView
-	Input *tview.InputField
+	Inner    *tview.Flex
+	Log      *tview.TextView
+	Input    *tview.InputField
+	OnUpdate func()
 }
 
 // Create creates a ChatLog and initialises it ready for rendering
@@ -27,6 +28,26 @@ func Create() (chatlog *ChatLog) {
 		AddItem(chatlog.Input, 3, 0, true)
 
 	return
+}
+
+// Write sends a message to the chat log
+func (cl *ChatLog) Write(user, message string) {
+	_, err := cl.Log.Write([]byte(fmt.Sprintf("%s: %s\n", user, message)))
+	if err != nil {
+		panic(err)
+	}
+	cl.Log.ScrollToEnd()
+	cl.OnUpdate()
+}
+
+// Sys sends a system/debug message
+func (cl *ChatLog) Sys(message string) {
+	_, err := cl.Log.Write([]byte(fmt.Sprintf("SYSTEM: %s\n", message)))
+	if err != nil {
+		panic(err)
+	}
+	cl.Log.ScrollToEnd()
+	cl.OnUpdate()
 }
 
 func (cl *ChatLog) createChatLog() (element *tview.TextView) {
