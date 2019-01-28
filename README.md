@@ -1,9 +1,5 @@
 # cordless
 
-(insert image of a gopher with a cordless phone from the 80s)
+A terminal-based Discord client.
 
-A work in progress terminal-based Discord client.
-
-Based on tview and discordgo.
-
-Won't be finished for a while so come back later...
+Taken over by Marcel: https://github.com/Bios-Marcel/cordless
